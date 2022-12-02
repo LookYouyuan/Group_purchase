@@ -1,0 +1,36 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjm.business.mapper.OrderMapper">
+
+    <resultMap id="orderMap" type="Order" autoMapping="true">
+        <id property="order_id" column="order_id"></id>
+        <association property="captain" resultMap="captainMap">
+            <result column="order_captain_id" property="captain_id"></result>
+        </association>
+    </resultMap>
+    <resultMap id="captainMap" type="Captain" autoMapping="true">
+        <id column="order_captain_id" property="captain_id"></id>
+    </resultMap>
+
+    <select id="queryOrder1" resultMap="orderMap">
+        select o.order_id,o.order_name,o.order_cnt,o.order_price,o.order_add,o.order_date,o.order_mode,o.order_prove_id, ca.captain_name from orders o, captain ca where order_mode = '1' and o.order_captain_id = ca.captain_id  order by order_id desc
+    </select>
+    <select id="queryOrder2" resultMap="orderMap">
+        select o.order_id,o.order_name,o.order_cnt,o.order_price,o.order_add,o.order_date,o.order_mode,o.order_prove_id, ca.captain_name from orders o, captain ca where order_mode = '2' and o.order_captain_id = ca.captain_id  order by order_id desc
+    </select>
+    <select id="queryOrder3" resultMap="orderMap">
+        select o.order_id,o.order_name,o.order_cnt,o.order_price,o.order_add,o.order_date,o.order_mode,o.order_prove_id, ca.captain_name from orders o, captain ca where order_mode = '3' and o.order_captain_id = ca.captain_id  order by order_id desc
+    </select>
+    <select id="queryOrder4" resultMap="orderMap">
+        select o.order_id,o.order_name,o.order_cnt,o.order_price,o.order_add,o.order_date,o.order_mode,o.order_prove_id, ca.captain_name from orders o, captain ca where order_mode = '4' and o.order_captain_id = ca.captain_id  order by order_id desc
+    </select>
+
+    <select id="queryOrderById" parameterType="int" resultType="Order">
+        select *from orders where order_id = #{order_id}
+    </select>
+    <update id="updateOrder" parameterType="Order">
+        update orders set order_mode=#{order_mode}, order_prove_id=#{order_prove_id}, order_cnt=#{order_cnt} where order_id=#{order_id}
+    </update>
+    
+</mapper>

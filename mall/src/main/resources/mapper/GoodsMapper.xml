@@ -1,0 +1,25 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjm.mall.mapper.GoodsMapper">
+
+
+    <select id="queryGoodsById" parameterType="int" resultType="Goods">
+        select * from goods where goods_id=#{goods_id};
+    </select>
+
+    <select id="queryGoodsByTypeId" parameterType="int" resultType="Goods">
+        select * from goods where goods_species=#{type_id};
+    </select>
+
+    <select id="queryRatingByGoodsId" parameterType="int" resultType="Rating">
+        select * from rating where goods_id=#{goods_id};
+    </select>
+
+    <update id="updateRating" parameterType="Rating">
+        update rating set  rating = #{rating}  where id=#{id} ;
+    </update>
+
+
+
+</mapper>

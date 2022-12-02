@@ -1,0 +1,22 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjm.business.mapper.CaptainMapper">
+    <select id="login" parameterType="Captain" resultType="Captain">
+        select * from captain where captain_id=#{captain_id} and password= #{password}
+    </select>
+    <update id="updatePassword" parameterType="Captain">
+        update captain set password=#{newpw} where captain_name=#{captain_name} and password=#{password}
+    </update>
+
+
+    <update id="updateCaptain" parameterType="Captain" >
+        update captain set captain_wage=#{captain_wage} , captain_id=#{captain_id} where captain_id=#{captain_id}
+    </update>
+    <select id="queryRevenue" resultType="Order">
+        select * from orders where order_mode = '4'  order by order_id desc
+    </select>
+    <select id="queryCaptainById" parameterType="int" resultType="Captain">
+        SELECT * FROM captain where captain_id=#{captain_id}
+    </select>
+</mapper>

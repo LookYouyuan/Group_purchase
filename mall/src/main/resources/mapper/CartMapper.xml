@@ -1,0 +1,58 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjm.mall.mapper.CartMapper">
+
+    <resultMap id="cartMap" type="Cart" autoMapping="true">
+        <id property="cart_id" column="cart_id"></id>
+        <association property="goods" resultMap="goodsMap">
+            <result column="cart_goods_id" property="goods_id"></result>
+        </association>
+        <association property="captain" resultMap="captainMap">
+            <result column="cart_captain_id" property="captain_id"></result>
+        </association>
+        <association property="order" resultMap="ordersMap">
+            <result column="cart_orders_id" property="order_id"></result>
+        </association>
+    </resultMap>
+    <resultMap id="goodsMap" type="Goods" autoMapping="true">
+        <id column="cart_goods_id" property="goods_id"></id>
+    </resultMap>
+    <resultMap id="captainMap" type="Captain" autoMapping="true">
+        <id column="cart_captain_id" property="captain_id"></id>
+    </resultMap>
+    <resultMap id="ordersMap" type="Order" autoMapping="true">
+        <id column="cart_orders_id" property="order_id"></id>
+    </resultMap>
+
+
+
+    <select id="queryCartss"  parameterType="int" resultMap="cartMap">
+        SELECT `c`.cart_mode,`c`.cart_id,g.goods_img, g.goods_name, g.goods_price,g.goods_explain,g.goods_cnt, ca.captain_name, o.order_prove_id FROM cart c, goods g, captain ca, orders o WHERE `c`.cart_goods_id = g.goods_id and `c`.cart_captain_id=ca.captain_id and `c`.cart_orders_id=o.order_id and `c`.cart_user_id=#{user_id}   ORDER BY `c`.cart_id asc
+    </select>
+
+    <select id="queryCart"  parameterType="int" resultMap="cartMap">
+        SELECT `c`.cart_mode,`c`.cart_id,g.goods_img, g.goods_name, g.goods_price,g.goods_explain,g.goods_cnt, ca.captain_name FROM cart c, goods g, captain ca WHERE `c`.cart_goods_id = g.goods_id and `c`.cart_captain_id=ca.captain_id  and `c`.cart_user_id=#{user_id}   ORDER BY `c`.cart_id asc
+    </select>
+
+
+    <select id="queryCartById" parameterType="int" resultType="Cart">
+        select * from cart where cart_id=#{cart_id};
+    </select>
+    
+
+
+    <select id="queryCaptain" resultType="Captain">
+        select * from captain;
+    </select>
+
+    <update id="updateCart" parameterType="Cart">
+        update cart set  cart_id=#{cart_id},cart_mode=#{cart_mode}, cart_captain_id=#{cart_captain_id} where cart_id=#{cart_id};
+    </update>
+
+
+    <insert id="addCart" parameterType="Cart">
+        insert into cart(cart_user_id,cart_goods_id,cart_orders_id,cart_mode,cart_captain_id) values (#{cart_user_id},#{cart_goods_id},#{cart_orders_id},#{cart_mode},#{cart_captain_id});
+    </insert>
+
+</mapper>

@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjm.business.mapper.CaptainMapper">
+    <select id="queryCaptain" resultType="Captain">
+        select * from captain  order by captain_wage desc
+    </select>
+    <select id="queryCaptainById" parameterType="int" resultType="Captain">
+        select * from captain where captain_id=#{captain_id}
+    </select>
+    <update id="updateCaptain" parameterType="Captain">
+        update captain set captain_date=#{captain_date}, captain_name=#{captain_name}, captain_sex=#{captain_sex},`position`=#{position} where captain_id=#{captain_id}
+    </update>
+    <update id="updateCaptainWage" parameterType="Captain">
+        update captain set captain_wage=#{captain_wage} where captain_id=#{captain_id};
+    </update>
+    <insert id="addCaptain" parameterType="Captain">
+        insert into captain values (#{captain_date},#{captain_name},#{captain_password},#{captain_sex},#{captain_wage},#{position});
+    </insert>
+</mapper>

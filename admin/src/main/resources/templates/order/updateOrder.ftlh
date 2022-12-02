@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        确定吗？
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./css/x-admin.css" media="all">
+</head>
+
+<body>
+<div class="x-body">
+    <form class="layui-form" action="doUpdateOrder">
+        <div>
+            <input type="hidden" name = "order_id" value="${order.order_id}">
+        </div>
+
+        <#if order.order_mode == 1>
+            <input  type="hidden" name="order_cnt" value="${order.order_cnt}">
+            <input  type="hidden" name = "order_mode" value="${order.order_mode + 1}">
+            <input  type="hidden" name = "order_prove_id" value="${order.order_prove_id}">
+        </#if>
+
+        <#if order.order_mode == 2  >
+            <#if order.order_prove_id == 0>
+            <script>
+                let code = 0;
+                for(let i = 0; i <6; i++ ){
+                    code *= 10;
+                    let a = Math.ceil(Math.random()*9);
+                    code += a;
+                }
+
+                console.log(code);
+
+            </script>
+
+                <input type="hidden" name = "order_prove_id" id="codes" >
+
+            <script>
+                document.getElementById("codes").value=code
+            </script>
+              <#--<script>document.write(code)</script>-->
+            </#if>
+
+            <li style="font-size: 18px">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;注意查看取件码！
+            </li>
+            <input type="hidden" name = "order_mode" value="${order.order_mode + 1}">
+            <input type="hidden" name = "order_cnt" value="${order.order_cnt}">
+        </#if>
+
+        <#if order.order_mode == 3 && order.order_cnt == 1 >
+            <input  type="hidden" name="order_cnt" value="${order.order_cnt - 1}">
+            <input  type="hidden" name = "order_mode" value="${order.order_mode + 1}">
+            <input  type="hidden" name = "order_prove_id" value="${order.order_prove_id}">
+
+            <#else >
+                <input  type="hidden" name="order_cnt" value="${order.order_cnt - 1}">
+                <input  type="hidden" name = "order_mode" value="${order.order_mode}">
+                <input  type="hidden" name = "order_prove_id" value="${order.order_prove_id}">
+        </#if>
+
+
+
+
+
+
+        <div class="layui-form-item">
+
+
+            <button  class="layui-btn" key="set-mine"  lay-submit onclick=" // 获得frame索引
+                var index = parent.layer.getFrameIndex(window.name);
+                //关闭当前frame
+                parent.layer.close(index);">
+                确定
+            </button>
+
+            <button  class="layui-btn" key="set-mine" lay-filter="save" lay-submit>
+                取消
+            </button>
+        </div>
+    </form>
+</div>
+<script src="./lib/layui/layui.js" charset="utf-8">
+</script>
+<script src="./js/x-layui.js" charset="utf-8">
+</script>
+<script>
+    layui.use(['laydate','form','layer'], function(){
+        $ = layui.jquery;
+        laydate = layui.laydate;
+        var form = layui.form()
+            ,layer = layui.layer;
+        var start = {
+            min: '1099-06-16 00:00:00'
+            ,max: '2099-06-16 23:59:59'
+            ,istoday: false
+        };
+
+        form.on('submit(save)', function(data){
+            console.log(data);
+            //发异步，数据提交
+            //layer.alert("修改成功", {icon: 6},function () {
+                // 获得frame索引
+                var index = parent.layer.getFrameIndex(window.name);
+                //关闭当前frame
+                parent.layer.close(index);
+            //});
+            return false;
+        });
+
+        /*document.getElementById('date').onclick = function(){
+            start.elem = this;
+            laydate(start);
+        }*/
+
+
+    });
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+</body>
+
+</html>

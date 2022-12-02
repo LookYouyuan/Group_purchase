@@ -1,0 +1,61 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjm.business.mapper.SingleMapper">
+
+
+    <resultMap id="cartMap" type="Cart" autoMapping="true">
+        <id property="cart_id" column="cart_id"></id>
+        <association property="user" resultMap="userMap">
+            <result column="cart_user_id" property="user_id"></result>
+        </association>
+        <association property="goods" resultMap="goodsMap">
+            <result column="cart_goods_id" property="goods_id"></result>
+        </association>
+        <association property="captain" resultMap="captainMap">
+            <result column="cart_captain_id" property="captain_id"></result>
+        </association>
+        <association property="order" resultMap="ordersMap">
+            <result column="cart_orders_id" property="order_id"></result>
+        </association>
+    </resultMap>
+    <resultMap id="userMap" type="User" autoMapping="true">
+        <id column="cart_user_id" property="user_id"></id>
+    </resultMap>
+    <resultMap id="goodsMap" type="Goods" autoMapping="true">
+        <id column="cart_goods_id" property="goods_id"></id>
+    </resultMap>
+    <resultMap id="captainMap" type="Captain" autoMapping="true">
+        <id column="cart_captain_id" property="captain_id"></id>
+    </resultMap>
+    <resultMap id="ordersMap" type="Order" autoMapping="true">
+        <id column="cart_orders_id" property="order_id"></id>
+    </resultMap>
+
+
+    <select id="queryListSingle" resultMap="cartMap">
+        select `c`.cart_id, `c`.cart_mode, `c`.cart_user_id, `c`.cart_goods_id, `c`.cart_orders_id, `c`.cart_captain_id, u.user_name, g.goods_img,g.goods_name,g.goods_cnt,g.goods_wage from cart c,goods g,`user` u, orders o  where  `c`.cart_user_id = u.user_id and `c`.cart_goods_id = g.goods_id and `c`.cart_orders_id = #{order_id} order by `c`.cart_goods_id asc;
+    </select>
+
+    <select id="querySingle" resultMap="cartMap">
+        select `c`.cart_id, `c`.cart_mode, `c`.cart_user_id, `c`.cart_goods_id, `c`.cart_orders_id, `c`.cart_captain_id, u.user_name, g.goods_img,g.goods_name,g.goods_cnt,g.goods_wage from cart c,goods g,`user` u  where  `c`.cart_user_id = u.user_id and `c`.cart_goods_id = g.goods_id and `c`.cart_captain_id = #{captain_id} order by `c`.cart_goods_id asc;
+    </select>
+
+    <select id="queryAllSingleById" resultMap="cartMap">
+        select `c`.cart_id, `c`.cart_mode, `c`.cart_user_id, `c`.cart_goods_id, `c`.cart_orders_id, `c`.cart_captain_id, u.user_name, g.goods_img,g.goods_name,g.goods_cnt,g.goods_wage,g.goods_price from cart c,goods g,`user` u  where  `c`.cart_user_id = u.user_id and `c`.cart_goods_id = g.goods_id and `c`.cart_captain_id = #{captain_id} and `c`.cart_id=#{cart_id}
+    </select>
+
+
+
+    <select id="querySingleById" parameterType="int" resultType="Cart">
+        select * from cart where cart_id=#{cart_id};
+    </select>
+    <update id="updateSingle" parameterType="Cart">
+        update cart set cart_mode=#{cart_mode} where cart_id=#{cart_id};
+    </update>
+
+    <update id="updateCartOrderId" parameterType="Cart">
+        update cart set cart_id=#{cart_id},cart_orders_id=#{cart_orders_id} where cart_id=#{cart_id};
+    </update>
+
+</mapper>

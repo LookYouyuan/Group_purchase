@@ -1,0 +1,38 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjm.business.mapper.GoodsMapper">
+
+
+    <resultMap id="goodsMap" type="Goods" autoMapping="true">
+        <id property="goods_id" column="goods_id"></id>
+
+        <association property="type" resultMap="typeMap">
+            <result column="goods_species" property="type_id"></result>
+        </association>
+    </resultMap>
+    <resultMap id="typeMap" type="Type" autoMapping="true">
+        <id column="goods_species" property="type_id"></id>
+    </resultMap>
+
+
+
+
+    <select id="queryGoods" resultMap="goodsMap">
+        select g.goods_id, g.goods_img,g.goods_name,g.goods_price,g.goods_explain,g.goods_cnt,g.goods_wage,t.type_name from goods g, `type` t where g.goods_species = t.type_id order by g.goods_id desc
+    </select>
+    <select id="queryGoodsById" parameterType="int" resultType="Goods">
+        select * from goods where goods_id=#{goods_id}
+    </select>
+    <update id="updateGoods" parameterType="Goods">
+        update goods set goods_name=#{goods_name},goods_price=#{goods_price},goods_explain=#{goods_explain},goods_cnt=#{goods_cnt},goods_species=#{goods_species},goods_wage=#{goods_wage} where goods_id=#{goods_id}
+    </update>
+    <delete id="deleteGoods" parameterType="int">
+        delete from goods where goods_id=#{goods_id}
+    </delete>
+    <insert id="addGoods" parameterType="Goods">
+        insert into goods values (#{goods_img},#{goods_id},#{goods_name},#{goods_price},#{goods_explain},#{goods_cnt},#{goods_species},#{goods_wage});
+    </insert>
+
+
+</mapper>

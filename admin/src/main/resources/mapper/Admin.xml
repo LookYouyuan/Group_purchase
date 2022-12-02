@@ -1,0 +1,14 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjm.business.mapper.AdminMapper">
+    <select id="login" parameterType="Admin" resultType="Admin">
+        select * from admin where admin_id=#{admin_id} and password= #{password}
+    </select>
+    <update id="updatePassword" parameterType="Admin">
+        update admin set password=#{newpw} where admin_name=#{admin_name} and password=#{password}
+    </update>
+    <select id="queryAdmin" parameterType="int" resultType="Admin">
+        SELECT * FROM admin where admin_id=#{admin_id}
+    </select>
+</mapper>

@@ -1,0 +1,32 @@
+server:
+  port: 8081
+  max-http-header-size: 10240000
+spring:
+  freemarker:
+    suffix: .ftlh
+    settings:
+      number_format: 0.##
+    cache: false
+    charset: UTF-8
+    content-type: text/html;charset=utf-8
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/shopping?characterEncoding=utf-8
+    username: root
+    password: root
+mybatis:
+  mapper-locations: mapper/*.xml
+  type-aliases-package: com.gjm.business.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  level:
+    com:
+      gjm:
+        business:
+          mapper: debug
+
+
+
+
+
